@@ -11,7 +11,7 @@
 
 /* ****************************************************************** */
 
-function clause extensionEnabled(Ext_Zabha) = true
+function clause extensionEnabled(Ext_Zabha) = false
 
 // Some print utils for lr/sc.
 
