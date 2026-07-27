@@ -149,8 +149,11 @@ function pmaCheck forall 'n, 0 < 'n <= max_mem_access .
           Cache(_)        => internal_error(__FILE__, __LINE__,
                                             "Invalid CacheAccessType; Inval, Clean and Flush check Read/Write permissions."),
         };
-        let canAccess = platform_get_rvfi_dii() | (canAccess & ext_pma_check(accTy, attributes));
-        if canAccess then None() else Some(accessFaultFromAccessType(accTy))
+        if platform_get_rvfi_dii() & out_of_rvfi_dii_range(physaddr_bits(paddr), width)
+        then Some(accessFaultFromAccessType(accTy)) else {
+          let canAccess = platform_get_rvfi_dii() | (canAccess & ext_pma_check(accTy, attributes));
+          if canAccess then None() else Some(accessFaultFromAccessType(accTy))
+        }
       }
     }
   }
@@ -297,6 +300,9 @@ $endif
 
 // only used for actual memory regions, to avoid MMIO effects
 function phys_mem_write forall 'n, 0 < 'n <= max_mem_access . (wk : write_kind, paddr : physaddr, width : int('n), data : bits(8 * 'n), meta : mem_meta) -> MemoryOpResult(bool) = {
+  if (match_reservation(physaddr_bits(paddr))) then {
+    cancel_reservation()
+  };
   if platform_get_rvfi_dii() & out_of_rvfi_dii_range(physaddr_bits(paddr), width)
   then Err(E_SAMO_Access_Fault())
   else {
