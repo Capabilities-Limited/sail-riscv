@@ -233,7 +233,7 @@ mach_bits plat_pma_address(mach_bits i) {
 }
 
 mach_bits plat_pma_atomicSupport_int(mach_bits i) {
-  return 0;
+  return 3;
 }
 
 bool plat_pma_cacheable(mach_bits i) {
