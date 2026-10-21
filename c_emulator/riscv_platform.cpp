@@ -407,3 +407,7 @@ bool sys_writable_stip(unit u) {
 mach_bits sys_xcause_bits(unit u) {
   return 63;
 }
+
+bool sys_unsafe_hardwire_cheri_enables(unit u) {
+  return rv_unsafe_hardwire_cheri_enables;
+}

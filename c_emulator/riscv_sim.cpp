@@ -54,7 +54,8 @@ enum {
   OPT_ENABLE_ZICBOZ,
   OPT_ENABLE_SSTC,
   OPT_CACHE_BLOCK_SIZE,
-  OPT_DO_SELF_TEST
+  OPT_DO_SELF_TEST,
+  OPT_UNSAFE_HARDWIRE_CHERI_ENABLES
 };
 
 static bool do_show_times = false;
@@ -158,6 +159,7 @@ static struct option options[] = {
     {"sailcov-file",                required_argument, 0, 'c'                     },
 #endif
     {"self-test",                   no_argument,       0, OPT_DO_SELF_TEST        },
+    {"unsafe-hardwire-cheri-enables", no_argument,     0, OPT_UNSAFE_HARDWIRE_CHERI_ENABLES },
     {0,                             0,                 0, 0                       }
 };
 
@@ -442,6 +444,9 @@ static int process_args(int argc, char **argv)
     case OPT_DO_SELF_TEST:
       do_self_test = true;
       rv_enable_misaligned = true; // Tests assume misaligned allowed
+      break;
+    case OPT_UNSAFE_HARDWIRE_CHERI_ENABLES:
+      rv_unsafe_hardwire_cheri_enables = true;
       break;
     case '?':
       print_usage(argv[0], 1);

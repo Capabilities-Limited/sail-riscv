@@ -104,6 +104,7 @@ mach_bits sys_pa_bits(unit u);
 mach_bits sys_pmp_writable(unit u);
 bool sys_writable_stip(unit u);
 mach_bits sys_xcause_bits(unit u);
+bool sys_unsafe_hardwire_cheri_enables(unit u);
 
 #ifdef __cplusplus
 } // extern "C"

@@ -31,6 +31,7 @@ extern bool rv_enable_misaligned;
 extern bool rv_mtval_has_illegal_inst_bits;
 extern bool rv_enable_writable_fiom;
 extern uint64_t rv_writable_hpm_counters;
+extern bool rv_unsafe_hardwire_cheri_enables;
 
 extern uint64_t rv_ram_base;
 extern uint64_t rv_ram_size;
