@@ -538,12 +538,18 @@ bitfield Mtvec : xlenbits = {
 register mtvec : Mtvec  /* Trap Vector */
 
 function legalize_tvec(o : Mtvec, v : xlenbits) -> Mtvec = {
- let v = Mk_Mtvec(v);
- match trapVectorMode_bits(v[Mode]) {
-   TV_Direct => v,
-   TV_Vector => v,
-   _         => [v with Mode = o[Mode]]
- }
+  if config base.match_cva6 then {
+    let vectored = v[0] == bitone;
+    if vectored then [Mk_Mtvec(zeros()) with Base = v[(xlen-1)..8] @ zeros(6), Mode=0b01]
+                else [Mk_Mtvec(zeros()) with Base = v[(xlen-1)..2], Mode=0b00]
+  } else {
+    let v = Mk_Mtvec(v);
+      match trapVectorMode_bits(v[Mode]) {
+        TV_Direct => v,
+        TV_Vector => v,
+        _         => [v with Mode = o[Mode]]
+    }
+  }
 }
 
 bitfield Mcause : xlenbits = {
