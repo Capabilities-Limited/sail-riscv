@@ -165,7 +165,7 @@ function legalize_misa(m : Misa, v : xlenbits) -> Misa = {
     U = if hartSupports(Ext_U) then v[U] else 0b0,
     V = if hartSupports(Ext_V) & v[F] == 0b1 & v[D] == 0b1 then v[V] else 0b0,
     // X = ... TODO: If custom extensions are present this should be 1
-    Y = if sys_enable_rvy() then v[Y] else 0b0,
+    Y = if sys_enable_rvy() then if config extensions.Y.unsafe_hardwire_enables then 0b1 else v[Y] else 0b0,
   ]
 }
 

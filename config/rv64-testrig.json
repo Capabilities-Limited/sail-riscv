@@ -78,6 +78,10 @@
     "U": {
       "supported": true
     },
+    "Y": {
+      "supported": true,
+      "unsafe_hardwire_enables": true
+    },
     "Zicbom": {
       "supported": true
     },
