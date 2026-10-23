@@ -84,10 +84,10 @@
       "unsafe_hardwire_enables": true
     },
     "Zicbom": {
-      "supported": true
+      "supported": false
     },
     "Zicboz": {
-      "supported": true
+      "supported": false
     },
     "Zicond": {
       "supported": true
