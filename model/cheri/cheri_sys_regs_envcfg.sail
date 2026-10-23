@@ -14,7 +14,7 @@ function legalize_menvcfg(o : MEnvcfg, v : bits(64)) -> MEnvcfg = {
     PBMTE = if sys_enable_pbmt() then v[PBMTE] else 0b0,
     // Read-only 0 if RVY is not implemented, which includes misa.Y being
     // cleared ([[norm:misa_extensions_disabling]] in the privileged spec).
-    Y = if currentlyEnabled(Ext_Y) then v[Y] else 0b0,
+    Y = if currentlyEnabled(Ext_Y) then if config extensions.Y.unsafe_hardwire_enables then 0b1 else v[Y] else 0b0,
     // Other extensions are not implemented yet so all other fields are read only zero.
   ]
 }
@@ -29,7 +29,7 @@ function legalize_senvcfg(o : SEnvcfg, v : xlenbits) -> SEnvcfg = {
     // Read-only 0 if RVY is not implemented, which includes misa.Y being
     // cleared ([[norm:misa_extensions_disabling]] in the privileged spec).
     // This does not depend on menvcfg.Y.
-    Y = if currentlyEnabled(Ext_Y) then v[Y] else 0b0,
+    Y = if currentlyEnabled(Ext_Y) then if config extensions.Y.unsafe_hardwire_enables then 0b1 else v[Y] else 0b0,
     // Other extensions are not implemented yet so all other fields are read only zero.
   ]
 }
