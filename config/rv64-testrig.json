@@ -65,7 +65,7 @@
       "supported": true
     },
     "V": {
-      "supported": true,
+      "supported": false,
       "vlen_exp": 9,
       "elen_exp": 6,
       "vl_use_ceil": false
