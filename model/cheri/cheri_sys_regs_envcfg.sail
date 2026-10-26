@@ -1,8 +1,5 @@
 // TODO: factor out code common to legalize_menvcfg and legalize_senvcfg.
 
-// Is PBMT supported?
-val sys_enable_pbmt = pure "sys_enable_pbmt" : unit -> bool
-
 function legalize_menvcfg(o : MEnvcfg, v : bits(64)) -> MEnvcfg = {
   let v = Mk_MEnvcfg(v);
   [o with
@@ -11,7 +8,7 @@ function legalize_menvcfg(o : MEnvcfg, v : bits(64)) -> MEnvcfg = {
     CBZE = if currentlyEnabled(Ext_Zicboz) then v[CBZE] else 0b0,
     CBCFE = if currentlyEnabled(Ext_Zicbom) then v[CBCFE] else 0b0,
     CBIE = if currentlyEnabled(Ext_Zicbom) then (if v[CBIE] != 0b10 then v[CBIE] else 0b00) else 0b00,
-    PBMTE = if sys_enable_pbmt() then v[PBMTE] else 0b0,
+    PBMTE = if hartSupports(Ext_Svpbmt) then v[PBMTE] else 0b0,
     // Read-only 0 if RVY is not implemented, which includes misa.Y being
     // cleared ([[norm:misa_extensions_disabling]] in the privileged spec).
     Y = if currentlyEnabled(Ext_Y) then if config extensions.Y.unsafe_hardwire_enables then 0b1 else v[Y] else 0b0,
