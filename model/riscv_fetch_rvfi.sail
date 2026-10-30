@@ -21,9 +21,9 @@ function rvfi_fetch() -> FetchResult = {
       let use_pc_bits = bits_of(use_pc);
       if   (use_pc_bits[0] != bitzero | (use_pc_bits[1] != bitzero & not(currentlyEnabled(Ext_Zca))))
       then F_Error(E_Fetch_Addr_Align(), PC)
-      else match translateAddr(use_pc, InstructionFetch()) {
+      else /*match translateAddr(use_pc, InstructionFetch()) {
         Err(e, _) => F_Error(e, PC),
-        Ok(_, _, _)  => {
+        Ok(_, _, _)  => */ {
           let i = rvfi_instruction[rvfi_insn];
           rvfi_inst_data[rvfi_insn]   = zero_extend(i);
           if   (i[1 .. 0] != 0b11)
@@ -35,14 +35,14 @@ function rvfi_fetch() -> FetchResult = {
               Ext_FetchAddr_Error(e)      => F_Error(e, PC_hi),
               Ext_FetchAddr_Ext_Error(e)  => F_Ext_Error(e),
               Ext_FetchAddr_OK(use_pc_hi) =>
-                match translateAddr(use_pc_hi, InstructionFetch()) {
+                /* match translateAddr(use_pc_hi, InstructionFetch()) {
                   Err(e, _) => F_Error(e, PC_hi),
-                  Ok(_, _, _)  => F_Base(i)
-              }
+                  Ok(_, _, _)  => */ F_Base(i)
+              //}
             }
           }
         }
-      }
+      // }
     }
   }
 }
